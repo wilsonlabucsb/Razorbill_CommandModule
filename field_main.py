@@ -50,7 +50,7 @@ try:
     andy_port = "GPIB0::28::INSTR"
 except:
     try:
-        sparky_port = "ASRL08::INSTR"
+        sparky_port = "ASRL8::INSTR"
         andy_port = "GPIB0::28::INSTR"
     except:
         print("check address of COMS ports and rewrite the script with correct ports")
