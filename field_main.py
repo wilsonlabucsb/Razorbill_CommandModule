@@ -48,6 +48,12 @@ rm = ResourceManager()
 try:
     sparky_port = "ASRL11::INSTR"
     andy_port = "GPIB0::28::INSTR"
+except:
+    try:
+        sparky_port = "ASRL08::INSTR"
+        andy_port = "GPIB0::28::INSTR"
+    except:
+        print("check address of COMS ports and rewrite the script with correct ports")
 
 
 def withinpercent(a, b, p = 1):
