@@ -5,6 +5,7 @@ import glob
 
 import numpy as np
 import argparse
+import pathlib
 
 from dataclasses import dataclass
 from QDInst import QDInstrument
@@ -13,11 +14,25 @@ from pyvisa import ResourceManager
 parser = argparse.ArgumentParser()
 
 parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
-parser.add_argument("TEMPS", help ="Range of temperatures", type = float, nargs='+')
-parser.add_argument("VAS", help ="Voltages on CH1 Tension", type = float, nargs='+')
-parser.add_argument("VBS", help ="Zeroes on CH2 Compression", type = float, nargs='+')
-parser.add_argument("FIELD", help ="Max field, min field, ramping rate", type = float, nargs=3)
-parser.add_argument("QD_FILES", help ="Path to folder", type=str)
+parser.add_argument("TEMPS", help ="Range of temperatures in Kelvin: ex. [50, 10, 2]", type = float, nargs='+')
+parser.add_argument("VAS", help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='+')
+parser.add_argument("VBS", help ="Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]", type = float, nargs='+')
+parser.add_argument("FIELD", help ="max field (Oe), min field (Oe), ramping rate (Oe/sec): ex. 90000, -90000, 50", type = float, nargs=3)
+parser.add_argument("QD_FILES", help ="Folder Path: ex. "/C/desktop/wilson-razorbill/sarah/" ", type=pathlib.Path)
+
+if args.TRANSITION_TEMP is None:
+    args.TRANSITION_TEMP = input(args.TRANSITION_TEMP.help())
+if args.TEMPS is None:
+    args.TEMPS = input(args.TEMPS.help())
+if args.VAS is None:
+    args.VAS = input(args.VAS.help())
+if args.VBS is None:
+    args.VBS = input(args.VBS.help())
+if args.FIELD is None:
+    args.FIELD = input(args.FIELD.help())
+if args.QD_FILES is None:
+    args.QD_FILES  = input(args.QD_FILES.help())
+
 
 QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
@@ -30,8 +45,10 @@ assert len(VAS) == len(VBS)
 rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
-sparky_port = "ASRL11::INSTR"
-andy_port = "GPIB0::28::INSTR"
+try:
+    sparky_port = "ASRL11::INSTR"
+    andy_port = "GPIB0::28::INSTR"
+
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
