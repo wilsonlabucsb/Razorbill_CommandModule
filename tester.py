@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 import pathlib
 
-parser = argparse.ArgumentParser(description = "arguement parsing:")
+parser = argparse.ArgumentParser(description = "arguement parsing:", prog='PROG', usage='%(prog)s [options]')
 
 parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
 parser.add_argument("TEMPS", help ="Range of temperatures in Kelvin: ex. [50, 10, 2]", type = float, nargs='*')
@@ -36,6 +36,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
