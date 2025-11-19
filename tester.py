@@ -7,7 +7,7 @@ import numpy as np
 import argparse
 import pathlib
 
-parser = argparse.ArgumentParser(description = "arguement parsing:"')
+parser = argparse.ArgumentParser(description = "arguement parsing:")
 args = parser.parse_args()
 parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
 if args.TRANSITION_TEMP is None:
@@ -36,6 +36,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
