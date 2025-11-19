@@ -12,12 +12,23 @@ from pyvisa import ResourceManager
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
-parser.add_argument("FIELDS", help ="Range of Fields", type = float, nargs='+')
-parser.add_argument("VAS", help ="Voltages on CH1 Tension", type = float, nargs='+')
-parser.add_argument("VBS", help ="Zeroes on CH2 Compression", type = float, nargs='+')
-parser.add_argument("TEMPS", help ="Max temp, min temp, ramping rate", type = float, nargs=3)
-parser.add_argument("QD_FILES", help ="Path to folder", type=str)
+parser.add_argument("FIELDS", help ="Range of Fields: ex. [0, 100, 10000, 90000]", type = float, nargs='+')
+parser.add_argument("VAS", help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='+')
+parser.add_argument("VBS", help ="Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]", type = float, nargs='+')
+parser.add_argument("TEMP", help ="start temp (K), stop temp (K), ramping rate (K/min), ex. 1.8, 300, 1", type = float, nargs=3)
+parser.add_argument("QD_FILES", help ="Folder Path: ex. "/C/desktop/wilson-razorbill/sarah/" ", type=pathlib.Path)
+
+
+if args.FIELDS is None:
+    args.FIELDS = input(args.FIELDS.help())
+if args.VAS is None:
+    args.VAS = input(args.VAS.help())
+if args.VBS is None:
+    args.VBS = input(args.VBS.help())
+if args.TEMP is None:
+    args.TEMP = input(args.TEMP.help())
+if args.QD_FILES is None:
+    args.QD_FILES  = input(args.QD_FILES.help())
 
 args = parser.parse_args()
 
@@ -32,8 +43,15 @@ assert len(VAS) == len(VBS)
 rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
-sparky_port = "ASRL11::INSTR"
-andy_port = "GPIB0::28::INSTR"
+try:
+    sparky_port = "ASRL11::INSTR"
+    andy_port = "GPIB0::28::INSTR"
+except:
+    try:
+        sparky_port = "ASRL08::INSTR"
+        andy_port = "GPIB0::28::INSTR"
+    except:
+        print("check address of COMS ports and rewrite the script with correct ports")
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
