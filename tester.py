@@ -9,12 +9,12 @@ import pathlib
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float, required = False)          # Warm to this with zero field, zero voltage
-parser.add_argument("TEMPS", help ="Range of temperatures in Kelvin: ex. [50, 10, 2]", type = float, nargs='*', required = False)
-parser.add_argument("VAS", help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='*', required = False)
-parser.add_argument("VBS", help ="Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]", type = float, nargs='*', required = False)
-parser.add_argument("FIELD", help ="max field (Oe), min field (Oe), ramping rate (Oe/sec): ex. 90000, -90000, 50", type = float, nargs=3, required = False)
-parser.add_argument("QD_FILES", help ="Folder Path:  ", type=pathlib.Path, required = False)
+parser.add_argument("TRANSITION_TEMP", help ="Transition temperature", type = float)          # Warm to this with zero field, zero voltage
+parser.add_argument("TEMPS", help ="Range of temperatures in Kelvin: ex. [50, 10, 2]", type = float, nargs='*')
+parser.add_argument("VAS", help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='*')
+parser.add_argument("VBS", help ="Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]", type = float, nargs='*')
+parser.add_argument("FIELD", help ="max field (Oe), min field (Oe), ramping rate (Oe/sec): ex. 90000, -90000, 50", type = float, nargs=3)
+parser.add_argument("QD_FILES", help ="Folder Path:  ", type=pathlib.Path)
 args = parser.parse_args()
 
 if args.TRANSITION_TEMP is None:
@@ -36,6 +36,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
