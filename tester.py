@@ -22,14 +22,9 @@ print("This will run Field Sweeps at a list of given Temperatures for each Razor
 
 if args.TEMPS is None:
     args.TEMPS = input("Range of temperatures in Kelvin: ex. [50, 10, 2]:  ")
-if args.VAS is None:
-    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]:  ")
-if args.VBS is None:
-    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]:  ")
 if args.FIELD is None:
     args.FIELD = input("max field (Oe), min field (Oe), ramping rate (Oe/sec): ex. 90000, -90000, 50:  ")
-if args.QD_FILES is None:
-    args.QD_FILES  = input("Folder Path:  ")
+
 
 
 
@@ -37,11 +32,10 @@ if args.QD_FILES is None:
 print('list inputs:')
 
 print("args.TEMPS:")
-for i in np.array(args.TEMPS):
-    print(i)
 print(np.array(args.TEMPS))
 print("*args.FIELD")
 print(np.array(*args.FIELD))
+
 
 
 
