@@ -37,11 +37,12 @@ if args.QD_FILES is None:
 print('list inputs:')
 
 print("args.TEMPS:")
-for i in args.TEMPS:
+for i in np.array(args.TEMPS):
     print(i)
-print(args.TEMPS)
+print(np.array(args.TEMPS))
 print("*args.FIELD")
-print(*args.FIELD)
+print(np.array(*args.FIELD))
+
 
 
 
