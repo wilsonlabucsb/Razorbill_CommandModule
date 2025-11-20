@@ -12,6 +12,7 @@ parser.add_argument('nul', type = float, default = 0)
 
 args = parser.parse_args()
 parser.add_argument('TRANSITION_TEMP', type = float, required = False)          # Warm to this with zero field, zero voltage
+args = parser.parse_args()
 if args.TRANSITION_TEMP is None:
     args.TRANSITION_TEMP = input("Transition temperature: ")                        
 parser.add_argument('TEMPS', type = float, nargs='*', required = False)
@@ -38,6 +39,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
