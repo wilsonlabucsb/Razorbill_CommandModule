@@ -22,6 +22,7 @@ print("This will run Field Sweeps at a list of given Temperatures for each Razor
 
 if args.TEMPS is None:
     args.TEMPS = input("Range of temperatures in Kelvin: ex. [50, 10, 2]:  ")
+    args.TEMPS = np.array(args.TEMPS)
 if args.FIELD is None:
     args.FIELD = input("max field (Oe), min field (Oe), ramping rate (Oe/sec): ex. 90000, -90000, 50:  ")
 
@@ -34,7 +35,8 @@ print('list inputs:')
 print("args.TEMPS:")
 print(np.array(args.TEMPS))
 print("*args.FIELD")
-print(np.array(*args.FIELD))
+print(args.FIELD[2])
+
 
 
 
