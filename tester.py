@@ -8,7 +8,7 @@ import argparse
 import pathlib
 
 parser = argparse.ArgumentParser(description = "arguement parsing:")
-parser.add_argument('--start', type = float, default = 1)
+parser.add_argument('nul', type = float, default = 0)
 
 args = parser.parse_args()
 parser.add_argument('--TRANSITION_TEMP', type = float, required = False)          # Warm to this with zero field, zero voltage
@@ -38,6 +38,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
