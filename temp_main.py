@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description = "arguement parsing:")
 parser.add_argument('--nul', type = float, default = 0)
 
 parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
-parser.add_argument('--VAS', help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='*', required = False)
+parser.add_argument('--VAS', type = float, nargs='*', required = False)
 parser.add_argument('--VBS', type = float, nargs='*', required = False)
 parser.add_argument('--TEMP', type = float, nargs=3, required = False)
 parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
@@ -123,7 +123,7 @@ class Andy:
 
 
 class QDButNotAwful:
-    def __init__(self, tramp_max, framp_max=220, tsleep=0.5, fsleep=0.5):
+    def __init__(self, tramp_max = 10, framp_max=220, tsleep=0.5, fsleep=0.5):
         self.tramp_max = tramp_max
         self.framp_max = framp_max
         self.tsleep = tsleep
@@ -207,7 +207,7 @@ measurments = []
 sparky.ch1_ramp(0)
 sparky.ch2_ramp(10)
 qd.zero_field()
-qd.wait_temp(args.TEMPS[0])
+qd.wait_temp(args.TEMP[0])
 
 #measure for each condition
 for va, vb in zip(VAS, VBS):
@@ -217,7 +217,7 @@ for va, vb in zip(VAS, VBS):
     for field in args.FIELDS:
         qd.wait_field(field)
         pickle.dump((measurments, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
-        qd.ramp_temp(*args.TEMPS)
+        qd.ramp_temp(*args.TEMP)
         
         while not qd.rampT_complete():
             lines = open(QD_FILE, 'r').readlines()
