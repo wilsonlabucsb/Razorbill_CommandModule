@@ -35,12 +35,14 @@ if args.QD_FILES is None:
 
 
 print('list inputs:')
-print("args.TRANSITION_TEMP:")
-print(args.TRANSITION_TEMP)
+
 print("args.TEMPS:")
+for i in args.TEMPS:
+    print(i)
 print(args.TEMPS)
 print("*args.FIELD")
 print(*args.FIELD)
+
 
 
 
