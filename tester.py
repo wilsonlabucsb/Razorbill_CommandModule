@@ -17,6 +17,7 @@ parser.add_argument('--VBS', type = float, nargs='*', required = False)
 parser.add_argument('--FIELD', type = float, nargs=3, required = False)
 parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
+args = parser.parse_args()
 if args.TRANSITION_TEMP is None:
     args.TRANSITION_TEMP = input("Transition temperature: ")                 
 if args.TEMPS is None:
@@ -29,7 +30,7 @@ if args.FIELD is None:
     args.FIELD = input("max field (Oe), min field (Oe), ramping rate (Oe/sec): ex. 90000, -90000, 50:  ")
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
-args = parser.parse_args()
+
 
 
 
@@ -38,6 +39,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
