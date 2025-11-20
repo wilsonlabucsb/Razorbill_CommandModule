@@ -10,25 +10,29 @@ from dataclasses import dataclass
 from QDInst import QDInstrument
 from pyvisa import ResourceManager
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description = "arguement parsing:")
+parser.add_argument('--nul', type = float, default = 0)
 
-parser.add_argument("FIELDS", help ="Range of Fields: ex. [0, 100, 10000, 90000]", type = float, nargs='+')
-parser.add_argument("VAS", help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='+')
-parser.add_argument("VBS", help ="Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]", type = float, nargs='+')
-parser.add_argument("TEMP", help ="start temp (K), stop temp (K), ramping rate (K/min), ex. 1.8, 300, 1", type = float, nargs=3)
-parser.add_argument("QD_FILES", help ="Folder Path: ex. "/C/desktop/wilson-razorbill/sarah/" ", type=pathlib.Path)
+parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
+parser.add_argument('--VAS', help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='*', required = False)
+parser.add_argument('--VBS', type = float, nargs='*', required = False)
+parser.add_argument('--TEMP', type = float, nargs=3, required = False)
+parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
+args = parser.parse_args()
 
-if args.FIELDS is None:
-    args.FIELDS = input(args.FIELDS.help())
+print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
+                  
+if args.TEMPS is None:
+    args.TEMPS = input("Range of temperatures in Kelvin: ex. [50, 10, 2]:  ")
 if args.VAS is None:
-    args.VAS = input(args.VAS.help())
+    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]:  ")
 if args.VBS is None:
-    args.VBS = input(args.VBS.help())
-if args.TEMP is None:
-    args.TEMP = input(args.TEMP.help())
+    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]:  ")
+if args.FIELD is None:
+    args.FIELD = input("starting temp (K), end temp (K), ramping rate (K/min): ex. 1.8, 300, 1:  ")
 if args.QD_FILES is None:
-    args.QD_FILES  = input(args.QD_FILES.help())
+    args.QD_FILES  = input("Folder Path:  ")
 
 args = parser.parse_args()
 
