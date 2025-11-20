@@ -18,7 +18,9 @@ parser.add_argument('--FIELD', type = float, nargs=3, required = False)
 parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
 args = parser.parse_args()
+
 if args.TRANSITION_TEMP is None:
+    print("This will run Field Sweeps at a list of given Temperatures for each Razorbill Power Setting VAS,VBS supplied:")
     args.TRANSITION_TEMP = input("Transition temperature: ")                 
 if args.TEMPS is None:
     args.TEMPS = input("Range of temperatures in Kelvin: ex. [50, 10, 2]:  ")
@@ -39,6 +41,7 @@ print("args.TRANSITION_TEMP:")
 print(args.TRANSITION_TEMP)
 print("args.TEMPS:")
 print(args.TEMPS)
+
 
 
 
