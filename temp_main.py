@@ -23,18 +23,22 @@ args = parser.parse_args()
 
 print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
                   
-if args.TEMPS is None:
-    args.TEMPS = input("Range of temperatures in Kelvin: ex. [50, 10, 2]:  ")
+if args.FIELDS is None:
+    args.FIELDS = input("Range of temperatures in Kelvin: ex. 50 10 2 :  ")
+    args.FIELDS = args.FIELDS
 if args.VAS is None:
-    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]:  ")
+    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
+    args.VAS = np.array(args.VAS)
 if args.VBS is None:
-    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. [10, 10, 10, 10]:  ")
-if args.FIELD is None:
-    args.FIELD = input("starting temp (K), end temp (K), ramping rate (K/min): ex. 1.8, 300, 1:  ")
+    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. 10 10 10 10 :  ")
+    args.VBS = np.array(args.VBS)
+if args.TEMP is None:
+    args.TEMP = input("starting temp (K), end temp (K), ramping rate (K/min): ex. 1.8 300 1:  ")
+    args.TEMP = np.array(args.TEMP)
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
+    args.QD_FILES = str(args.QD_FILES)
 
-args = parser.parse_args()
 
 QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
@@ -201,7 +205,7 @@ measurments = []
 
 #intitiate starting sequence
 sparky.ch1_ramp(0)
-sparky.ch2_ramp(25)
+sparky.ch2_ramp(10)
 qd.zero_field()
 qd.wait_temp(args.TEMPS[0])
 
