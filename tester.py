@@ -10,9 +10,9 @@ import pathlib
 parser = argparse.ArgumentParser(description = "arguement parsing:")
 parser.add_argument('--nul', type = float, default = 0)
 
-parser.add_argument('--TEMPS', type = float, nargs='*', required = False)
-parser.add_argument('--VAS', help ="Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. [0, 5, 20, 50]", type = float, nargs='*', required = False)
-parser.add_argument('--VBS', type = float, nargs='*', required = False)
+parser.add_argument('--TEMPS', type = float, nargs='+', required = False)
+parser.add_argument('--VAS', type = float, nargs='+', required = False)
+parser.add_argument('--VBS', type = float, nargs='+', required = False)
 parser.add_argument('--FIELD', type = float, nargs=3, required = False)
 parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
@@ -42,6 +42,7 @@ for i in args.TEMPS:
 print(args.TEMPS)
 print("*args.FIELD")
 print(*args.FIELD)
+
 
 
 
