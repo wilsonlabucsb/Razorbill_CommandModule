@@ -47,6 +47,8 @@ print("Using File:", QD_FILE)
 VAS = np.array(args.VAS)
 VBS = np.array(args.VBS)
 
+print(len(VAS))
+print(len(VBS))
 assert len(VAS) == len(VBS)
 
 rm = ResourceManager()
