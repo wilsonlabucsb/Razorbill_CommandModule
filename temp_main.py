@@ -11,18 +11,18 @@ from dataclasses import dataclass
 from QDInst import QDInstrument
 from pyvisa import ResourceManager
 
- parser = argparse.ArgumentParser(description = "arguement parsing:")
- parser.add_argument('--nul', type = float, default = 0)
+parser = argparse.ArgumentParser(description = "arguement parsing:")
+parser.add_argument('--nul', type = float, default = 0)
 
 # parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
 # parser.add_argument('--VAS', type = float, nargs='*', required = False)
 # parser.add_argument('--VBS', type = float, nargs='*', required = False)
 # parser.add_argument('--TEMP', type = float, nargs=3, required = False)
- parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
+parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
- args = parser.parse_args()
+args = parser.parse_args()
 
- print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
+print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
                   
 # if args.FIELDS is None:
 #     args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
