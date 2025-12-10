@@ -11,35 +11,35 @@ from dataclasses import dataclass
 from QDInst import QDInstrument
 from pyvisa import ResourceManager
 
-parser = argparse.ArgumentParser(description = "arguement parsing:")
-parser.add_argument('--nul', type = float, default = 0)
+ parser = argparse.ArgumentParser(description = "arguement parsing:")
+ parser.add_argument('--nul', type = float, default = 0)
 
-parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
-parser.add_argument('--VAS', type = float, nargs='*', required = False)
-parser.add_argument('--VBS', type = float, nargs='*', required = False)
-parser.add_argument('--TEMP', type = float, nargs=3, required = False)
-parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
+# parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
+# parser.add_argument('--VAS', type = float, nargs='*', required = False)
+# parser.add_argument('--VBS', type = float, nargs='*', required = False)
+# parser.add_argument('--TEMP', type = float, nargs=3, required = False)
+ parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
-args = parser.parse_args()
+ args = parser.parse_args()
 
-print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
+ print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
                   
-if args.FIELDS is None:
-    args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
-    args.FIELDS = np.array(args.FIELDS)
-    args.FIELDS = np.array([float(args.FIELDS[i]) for i in range(0)])
-if args.VAS is None:
-    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
-    args.VAS = np.array(args.VAS)
-    args.VAS = np.array([float(args.VAS[i]) for i in range(5)])
-if args.VBS is None:
-    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. 10 10 10 10 :  ")
-    args.VBS = np.array(args.VBS)    
-    args.VBS = np.array([float(args.VBS[i]) for i in range(5)])
-if args.TEMP is None:
-    args.TEMP = input("starting temp (K), end temp (K), ramping rate (K/min): ex. 1.8 300 1:  ")
-    args.TEMP = np.array(args.TEMP)
-    args.TEMP = np.array([float(args.TEMP[i]) for i in range(2)])
+# if args.FIELDS is None:
+#     args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
+#     args.FIELDS = np.array(args.FIELDS)
+#     args.FIELDS = np.array([float(args.FIELDS[i]) for i in range(0)])
+# if args.VAS is None:
+#     args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
+#     args.VAS = np.array(args.VAS)
+#     args.VAS = np.array([float(args.VAS[i]) for i in range(5)])
+# if args.VBS is None:
+#     args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. 10 10 10 10 :  ")
+#     args.VBS = np.array(args.VBS)    
+#     args.VBS = np.array([float(args.VBS[i]) for i in range(5)])
+# if args.TEMP is None:
+#     args.TEMP = input("starting temp (K), end temp (K), ramping rate (K/min): ex. 1.8 300 1:  ")
+#     args.TEMP = np.array(args.TEMP)
+#     args.TEMP = np.array([float(args.TEMP[i]) for i in range(2)])
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
     args.QD_FILES = str(args.QD_FILES)
@@ -48,8 +48,11 @@ if args.QD_FILES is None:
 QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
 
-VAS = np.array(args.VAS)
-VBS = np.array(args.VBS)
+VAS = np.array([0, 5, 10, 15, 20, 25])
+VBS = np.array([5, 5, 5, 5, 5, 5])
+
+args.Temp = np.array([300, 1.8, 1])
+args.Fields = np.array([0])
 
 print(len(VAS))
 print(len(VBS))
