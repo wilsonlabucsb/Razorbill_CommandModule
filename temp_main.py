@@ -51,8 +51,8 @@ print("Using File:", QD_FILE)
 VAS = np.array([0, 5, 10, 15, 20, 25])
 VBS = np.array([5, 5, 5, 5, 5, 5])
 
-args.Temp = np.array([300, 1.8, 1])
-args.Fields = np.array([0])
+Temp = np.array([300, 1.8, 1])
+Fields = np.array([0])
 
 print(len(VAS))
 print(len(VBS))
@@ -217,17 +217,17 @@ measurments = []
 sparky.ch1_ramp(0)
 sparky.ch2_ramp(10)
 qd.zero_field()
-qd.wait_temp(args.TEMP[0])
+qd.wait_temp(TEMP[0])
 
 #measure for each condition
 for va, vb in zip(VAS, VBS):
     sparky.ch1_ramp(va)
     sparky.ch2_ramp(vb)
     
-    for field in args.FIELDS:
+    for field in FIELDS:
         qd.wait_field(field)
         pickle.dump((measurments, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
-        qd.ramp_temp(*args.TEMP)
+        qd.ramp_temp(*TEMP)
         
         while not qd.rampT_complete():
             lines = open(QD_FILE, 'r').readlines()
