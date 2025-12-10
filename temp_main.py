@@ -26,16 +26,17 @@ print("This will run temperature sweeps at a list of given Fields for each Razor
                   
 if args.FIELDS is None:
     args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
-    args.FIELDS = args.FIELDS
+    args.FIELDS = np.array([float(args.FIELDS[i]) for i in range(0)])
+    
 if args.VAS is None:
     args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
-    args.VAS = np.array(args.VAS)
+    args.VAS = np.array([float(args.VAS[i]) for i in range(5)])
 if args.VBS is None:
     args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. 10 10 10 10 :  ")
-    args.VBS = np.array(args.VBS)
+    args.VBS = np.array([float(args.VBS[i]) for i in range(5)])
 if args.TEMP is None:
     args.TEMP = input("starting temp (K), end temp (K), ramping rate (K/min): ex. 1.8 300 1:  ")
-    args.TEMP = np.array(args.TEMP)
+    args.TEMP = np.array([float(args.TEMP[i]) for i in range(2)])
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
     args.QD_FILES = str(args.QD_FILES)
