@@ -25,7 +25,7 @@ args = parser.parse_args()
 print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
                   
 if args.FIELDS is None:
-    args.FIELDS = input("Range of temperatures in Kelvin: ex. 50 10 2 :  ")
+    args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
     args.FIELDS = args.FIELDS
 if args.VAS is None:
     args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
