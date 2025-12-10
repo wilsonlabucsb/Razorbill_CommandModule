@@ -211,7 +211,7 @@ class Measurement:
     qdline: tuple[str, int]
 
 
-measurments = []
+measurements = []
 
 #intitiate starting sequence
 sparky.ch1_ramp(0)
@@ -226,13 +226,13 @@ for va, vb in zip(VAS, VBS):
     
     for field in FIELDS:
         qd.wait_field(field)
-        pickle.dump((measurments, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
+        pickle.dump((measurements, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
         qd.ramp_temp(*TEMP)
         
         while not qd.rampT_complete():
             lines = open(QD_FILE, 'r').readlines()
-            measurments.append(
-                Measurment(
+            measurements.append(
+                Measurement(
                     qd.get_temp(),
                     (va, vb),
                     field,
@@ -240,10 +240,10 @@ for va, vb in zip(VAS, VBS):
                     (lines[-1], len(lines))
                 )
             )
-            print(measurments[-1])
+            print(measurements[-1])
         
 #output data file
-pickle.dump((measurments, open(QD_FILE, "r").read()) , open("mymeasurements-{:f}.pkl".format(time.time()), "wb"))
+pickle.dump((measurements, open(QD_FILE, "r").read()) , open("mymeasurements-{:f}.pkl".format(time.time()), "wb"))
 
 #outro sequence
 sparky.ch1_ramp(0)
