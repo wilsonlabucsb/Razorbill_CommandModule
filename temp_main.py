@@ -51,8 +51,8 @@ print("Using File:", QD_FILE)
 VAS = np.array([0, 5, 10, 15, 20, 25])
 VBS = np.array([5, 5, 5, 5, 5, 5])
 
-Temp = np.array([300, 1.8, 1])
-Fields = np.array([0])
+TEMP = np.array([300, 1.8, 1])
+FIELDS = np.array([0])
 
 print(len(VAS))
 print(len(VBS))
