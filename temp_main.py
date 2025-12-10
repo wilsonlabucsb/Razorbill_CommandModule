@@ -27,7 +27,7 @@ print("This will run temperature sweeps at a list of given Fields for each Razor
 if args.FIELDS is None:
     args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
     args.FIELDS = np.array(args.FIELDS)
-     args.FIELDS = np.array([float(args.FIELDS[i]) for i in range(0)])
+    args.FIELDS = np.array([float(args.FIELDS[i]) for i in range(0)])
 if args.VAS is None:
     args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
     args.VAS = np.array(args.VAS)
