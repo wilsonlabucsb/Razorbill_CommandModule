@@ -30,26 +30,30 @@ if args.TEMPS is None:
     TEMPS = stringy.split(" ")
     TEMPS = np.array([float(TEMPS[i]) for i in range(len(TEMPS))])
 if args.VAS is None:
-    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
-    args.VAS = np.array(args.VAS)
+    args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 : ")
+    stringy = args.VAS
+    VAS = stringy.split(" ")
+    VAS = np.array([float(VAS[i]) for i in range(len(VAS))])
 if args.VBS is None:
-    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. 10 10 10 10 :  ")
-    args.VBS = np.array(args.VBS)
+    args.VBS = input("Voltages on CH2 Compression(see temperature dependant limitations in Razorbill User Guide): ex. 10 10 10 10 : ")
+    stringy = args.VBS
+    VBS = stringy.split(" ")
+    VBS = np.array([float(VBS[i]) for i in range(len(VBS))])
 if args.FIELD is None:
-    args.FIELD = input("max field (T), min field (T), ramping rate (Oe/sec): ex. 9 -9 50 :  ")
-    args.FIELD = np.array(args.FIELD)
-    args.FIELD[0] *= 10000 #unit conversion
-    args.FIELD[1] *= 10000 #unit conversion
+    args.FIELD = input("max field (T), min field (T), ramping rate (Oe/sec): ex. 9 -9 50 : ")
+    stringy = args.FIELD
+    FIELD = stringy.split(" ")
+    FIELD = np.array([float(FIELD[i]) for i in range(len(FIELD))])
+    FIELD[0] *= 10000 #unit conversion
+    FIELD[1] *= 10000 #unit conversion
 if args.QD_FILES is None:
-    args.QD_FILES  = input("Folder Path:  ")
-    args.QD_FILES = str(args.QD_FILES)
+    args.QD_FILES  = input("Folder Path: ")
+    args.QD_FILES = str(args.QD_FILES).split(" ")
+
 
 
 QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
-
-VAS = np.array(args.VAS)
-VBS = np.array(args.VBS)
 
 assert len(VAS) == len(VBS)
 
@@ -207,29 +211,29 @@ class Measurement:
     qdline: tuple[str, int]
 
 
-measurments = []
+measurements = []
 
 #intitiate starting sequence
 sparky.ch1_ramp(0)
 sparky.ch2_ramp(10)
 qd.zero_field()
-qd.wait_temp(args.TEMPS[0])
+qd.wait_temp(TEMPS[0])
 
 #measure for each condition
 for va, vb in zip(VAS, VBS):
     sparky.ch1_ramp(va)
     sparky.ch2_ramp(vb)
     
-    for temp in args.TEMPS:
+    for temp in TEMPS:
         qd.zero_field()
         qd.wait_temp(temp)
-        pickle.dump((measurments, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
-        qd.ramp_field(*args.FIELD)
+        pickle.dump((measurements, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
+        qd.ramp_field(*FIELD)
         
         while not qd.ramp_complete():
             lines = open(QD_FILE, 'r').readlines()
-            measurments.append(
-                Measurment(
+            measurements.append(
+                Measurement(
                     temp,
                     (va, vb),
                     qd.get_field(),
@@ -237,10 +241,10 @@ for va, vb in zip(VAS, VBS):
                     (lines[-1], len(lines))
                 )
             )
-            print(measurments[-1])
+            print(measurements[-1])
         
 #output data file
-pickle.dump((measurments, open(QD_FILE, "r").read()) , open("mymeasurements-{:f}.pkl".format(time.time()), "wb"))
+pickle.dump((measurements, open(QD_FILE, "r").read()) , open("mymeasurements-{:f}.pkl".format(time.time()), "wb"))
 
 #outro sequence
 sparky.ch1_ramp(0)
