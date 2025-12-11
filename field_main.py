@@ -26,7 +26,9 @@ print("This will run Field Sweeps at a list of given Temperatures for each Razor
                
 if args.TEMPS is None:
     args.TEMPS = input("Range of temperatures in Kelvin: ex. 50 10 2 :  ")
-    args.TEMPS = np.array(args.TEMPS)
+    stringy = args.TEMPS
+    TEMPS = stringy.split(" ")
+    TEMPS = np.array([float(TEMPS[i]) for i in range(len(TEMPS))])
 if args.VAS is None:
     args.VAS = input("Voltages on CH1 Tension (see temperature dependant limitations in Razorbill User Guide): ex. 0 5 20 50 :  ")
     args.VAS = np.array(args.VAS)
