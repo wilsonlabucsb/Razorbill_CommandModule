@@ -18,6 +18,7 @@ parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
 parser.add_argument('--VAS', type = float, nargs='*', required = False)
 parser.add_argument('--VBS', type = float, nargs='*', required = False)
 parser.add_argument('--TEMP', type = float, nargs=3, required = False)
+parser.add_argument('--Warming_vs_Cooling', type= bool , required = False)
 parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 
 args = parser.parse_args()
@@ -44,6 +45,10 @@ if args.TEMP is None:
     stringy = args.TEMP
     TEMP = stringy.split(" ")
     TEMP = np.array([float(TEMP[i]) for i in range(len(TEMP))])
+if args.Warming_vs_Cooling is None:
+    args.Warming_vs_Cooling = input("collect data on both Warming and Cooling?: ex. False:  ")
+    stringy = args.Warming_vs_Cooling
+    Warming_vs_Cooling = bool(stringy)
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
     args.QD_FILES = str(args.QD_FILES).split(" ")
@@ -237,6 +242,21 @@ for va, vb in zip(VAS, VBS):
                 )
             )
             print(measurements[-1])
+        if Warming_vs_Cooling == True:
+            qd.ramp_temp(TEMP[1], TEMP[0], TEMP[2])
+        
+            while not qd.rampT_complete():
+              lines = open(QD_FILE, 'r').readlines()
+              measurements.append(
+                  Measurement(
+                      qd.get_temp(),
+                      (va, vb),
+                      field,
+                      andy.capacitance_string(),
+                      (lines[-1], len(lines))
+                  )
+              )
+              print(measurements[-1])
         
 #output data file
 pickle.dump((measurements, open(QD_FILE, "r").read()) , open("mymeasurements-{:f}.pkl".format(time.time()), "wb"))
