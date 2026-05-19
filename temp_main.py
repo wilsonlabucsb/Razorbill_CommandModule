@@ -73,6 +73,8 @@ except:
         andy_port = "GPIB0::28::INSTR"
     except:
         print("check address of COMS ports and rewrite the script with correct ports")
+sparky_port = "ASRL8::INSTR"
+andy_port = "GPIB0::28::INSTR"
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
