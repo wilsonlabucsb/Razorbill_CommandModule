@@ -52,8 +52,9 @@ if args.Warming_vs_Cooling is None:
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
     args.QD_FILES = str(args.QD_FILES).split(" ")
+  
 
-
+print(args.QD_FILES)
 QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
 
