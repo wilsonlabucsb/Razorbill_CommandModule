@@ -155,7 +155,7 @@ class QDButNotAwful:
         self.set_temp(t)
         while True:
             time.sleep(self.tsleep)
-            if withinpercent(t, self.get_temp()) and self.qd.temp_status == "Stable":
+            if withinpercent(t, self.get_temp()) or self.qd.temp_status == "Stable":
                 break
 
     def ramp_temp(self, start, stop, rate):
