@@ -67,6 +67,7 @@ rm = ResourceManager()
 try:
     sparky_port = "ASRL11::INSTR"
     andy_port = "GPIB0::28::INSTR"
+    sparky_port.write("sour2:volt 0")
 except:
     try:
         sparky_port = "ASRL8::INSTR"
@@ -153,9 +154,16 @@ class QDButNotAwful:
         
     def wait_temp(self, t):
         self.set_temp(t)
+        count = 0
         while True:
             time.sleep(self.tsleep)
-            if withinpercent(t, self.get_temp()) or self.qd.temp_status == "Stable":
+            if withinpercent(t, self.get_temp()) and self.qd.temp_status == "Stable":
+                break
+            if not withinpercent(t, self.get_temp()) and self.qd.temp_status == "Chasing":
+                count = 0  
+            if withinpercent(t, self.get_temp()) and self.qd.temp_status == "Chasing":
+                count += 1
+            if count >= 100 and withinpercent(t, self.get_temp()):
                 break
 
     def ramp_temp(self, start, stop, rate):
