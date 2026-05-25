@@ -67,15 +67,16 @@ rm = ResourceManager()
 try:
     sparky_port = "ASRL11::INSTR"
     andy_port = "GPIB0::28::INSTR"
-    sparky_port.write("sour2:volt 0")
+    SPARKY = rm.open_resource('ASRL11::INSTR') 
+    SPARKY.write('sour1:volt 0')
 except:
     try:
-        sparky_port = "ASRL8::INSTR"
+        sparky_port = "ASRL08::INSTR"
         andy_port = "GPIB0::28::INSTR"
+        SPARKY = rm.open_resource('ASRL08::INSTR') 
+        SPARKY.write('sour1:volt 0')
     except:
         print("check address of COMS ports and rewrite the script with correct ports")
-sparky_port = "ASRL8::INSTR"
-andy_port = "GPIB0::28::INSTR"
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
