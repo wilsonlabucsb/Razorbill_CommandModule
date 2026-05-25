@@ -2,6 +2,11 @@ import pyvisa
 import time
 rm = pyvisa.ResourceManager()
 SPARKY = rm.open_resource('ASRL08::INSTR')
+try: 
+  SPARKY.write('sour1:volt 0')
+except:
+  SPARKY = rm.open_resource('ASRL11::INSTR')
+  
 
 print('set ch1 volt to 0')
 time.sleep(0.1)
