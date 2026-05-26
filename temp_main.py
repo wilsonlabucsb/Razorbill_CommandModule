@@ -48,7 +48,10 @@ if args.TEMP is None:
 if args.Warming_vs_Cooling is None:
     args.Warming_vs_Cooling = input("collect data on both Warming and Cooling?: ex. False:  ")
     stringy = args.Warming_vs_Cooling
-    Warming_vs_Cooling = bool(stringy)
+    if stringy.split() == 'True':
+      Warming_vs_Cooling = True
+    else:
+      Warming_vs_Cooling = False
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
     args.QD_FILES = str(args.QD_FILES).split(" ")
@@ -140,7 +143,7 @@ class Andy:
 
 
 class QDButNotAwful:
-    def __init__(self, tramp_max = 10, framp_max=220, tsleep=0.5, fsleep=0.5):
+    def __init__(self, tramp_max = 10, framp_max=220, tsleep=1.0, fsleep=1.0):
         self.tramp_max = tramp_max
         self.framp_max = framp_max
         self.tsleep = tsleep
@@ -171,7 +174,7 @@ class QDButNotAwful:
         self.wait_temp(start)
         self.qd.set.temp(stop, rate, 0)
         while True:
-            time.sleep(self.fsleep)
+            time.sleep(self.tsleep)
             if self.qd.temp_status in ["Tracking", "Chasing"]:
                 break
     def rampT_complete(self):
@@ -184,7 +187,7 @@ class QDButNotAwful:
         self.wait_field(self.get_field()/10)
         self.qd.set.field(0, self.framp_max, 2, 1)
         while True:
-            time.sleep(self.tsleep)
+            time.sleep(self.fsleep)
             if withinpercent(0, self.get_field()) and self.qd.field_status in ["Stable", "Holding (Driven)"]:
                 break
         
@@ -256,6 +259,7 @@ for va, vb in zip(VAS, VBS):
             )
             print(measurements[-1])
         if Warming_vs_Cooling == True:
+            pickle.dump((measurements, open(QD_FILE, "r").read()) , open("backup-{:f}.pkl".format(time.time()), "wb"))
             qd.ramp_temp(TEMP[1], TEMP[0], TEMP[2])
         
             while not qd.rampT_complete():
