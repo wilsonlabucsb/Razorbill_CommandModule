@@ -59,7 +59,6 @@ if args.QD_FILES is None:
 
 print(args.QD_FILES)
 QD_FILE = r"C:\Users\sysadmin\Desktop\Razorbill-WilsonGroup\Sarah\ZrV2_g15_res_111axis_0p95mA_33p5Hz_6112026_w.dat"
-C:\Users\sysadmin\Desktop\Razorbill-WilsonGroup\Sarah
 #QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
 
