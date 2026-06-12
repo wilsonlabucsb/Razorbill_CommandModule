@@ -67,19 +67,19 @@ assert len(VAS) == len(VBS)
 rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
-try:
-    sparky_port = "ASRL11::INSTR"
-    andy_port = "GPIB0::28::INSTR"
-    SPARKY = rm.open_resource('ASRL11::INSTR') 
-    SPARKY.write('sour1:volt 0')
-except:
-    try:
-        sparky_port = "ASRL08::INSTR"
-        andy_port = "GPIB0::28::INSTR"
-        SPARKY = rm.open_resource('ASRL08::INSTR') 
-        SPARKY.write('sour1:volt 0')
-    except:
-        print("check address of COMS ports and rewrite the script with correct ports")
+#try:
+#    sparky_port = "ASRL11::INSTR"
+#    andy_port = "GPIB0::28::INSTR"
+#    SPARKY = rm.open_resource('ASRL11::INSTR') 
+#    SPARKY.write('sour1:volt 0')
+#except:
+#    try:
+#        sparky_port = "ASRL08::INSTR"
+#        andy_port = "GPIB0::28::INSTR"
+#        SPARKY = rm.open_resource('ASRL08::INSTR') 
+#        SPARKY.write('sour1:volt 0')
+#    except:
+#        print("check address of COMS ports and rewrite the script with correct ports")
 sparky_port = "ASRL08::INSTR"
 andy_port = "GPIB0::28::INSTR"
 
