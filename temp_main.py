@@ -14,6 +14,7 @@ from pyvisa import ResourceManager
 parser = argparse.ArgumentParser(description = "arguement parsing:")
 parser.add_argument('--nul', type = float, default = 0)
 
+parser.add_argument('--PPMS', type = string, nargs = 1, required = False)
 parser.add_argument('--FIELDS', type = float, nargs='*', required = False)
 parser.add_argument('--VAS', type = float, nargs='*', required = False)
 parser.add_argument('--VBS', type = float, nargs='*', required = False)
@@ -24,7 +25,11 @@ parser.add_argument('--QD_FILES', type=pathlib.Path, required = False)
 args = parser.parse_args()
 
 print("This will run temperature sweeps at a list of given Fields for each Razorbill Power Setting VAS,VBS supplied:")
-                  
+
+if args.PPMS is None:
+    args.PPMS = input("Which Dynacool: ex. D1 :  ")
+    stringy = args.PPMS
+    ppms = stringy.split(" ")
 if args.FIELDS is None:
     args.FIELDS = input("Range of fields in Oe: ex. 0 100 10000 :  ")
     stringy = args.FIELDS
@@ -54,12 +59,10 @@ if args.Warming_vs_Cooling is None:
       Warming_vs_Cooling = False
 if args.QD_FILES is None:
     args.QD_FILES  = input("Folder Path:  ")
-    args.QD_FILES = str(args.QD_FILES).split(" ")
+    args.QD_FILES = os.path.normpath(args.QD_FILES)
   
-
 print(args.QD_FILES)
-QD_FILE = r"C:\Users\sysadmin\Desktop\Razorbill-WilsonGroup\Sarah\ZrV2_g15_res_111axis_0p95mA_33p5Hz_6112026_w.dat"
-#QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
+QD_FILE = max(glob.glob(args.QD_FILES+"*.dat"), key=os.path.getctime)
 print("Using File:", QD_FILE)
 
 assert len(VAS) == len(VBS)
@@ -67,21 +70,12 @@ assert len(VAS) == len(VBS)
 rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
-#try:
-#    sparky_port = "ASRL11::INSTR"
-#    andy_port = "GPIB0::28::INSTR"
-#    SPARKY = rm.open_resource('ASRL11::INSTR') 
-#    SPARKY.write('sour1:volt 0')
-#except:
-#    try:
-#        sparky_port = "ASRL08::INSTR"
-#        andy_port = "GPIB0::28::INSTR"
-#        SPARKY = rm.open_resource('ASRL08::INSTR') 
-#        SPARKY.write('sour1:volt 0')
-#    except:
-#        print("check address of COMS ports and rewrite the script with correct ports")
-sparky_port = "ASRL08::INSTR"
-andy_port = "GPIB0::28::INSTR"
+if ppms == 'D2':
+    sparky_port = "ASRL11::INSTR"
+    andy_port = "GPIB0::28::INSTR"
+if ppms == 'D1':
+    sparky_port = "ASRL08::INSTR"
+    andy_port = "GPIB0::28::INSTR"
 
 def withinpercent(a, b, p = 1):
     if int(a) == 0 or int(b) == 0:
