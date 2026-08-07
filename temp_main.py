@@ -71,8 +71,8 @@ rm = ResourceManager()
 
 #use check resources to confirm the port ID of each intrument (USB port ID for the Razorbill ~sparky~ is likely to change)
 if ppms == 'D2':
-    sparky_port = "ASRL11::INSTR"
-    andy_port = "GPIB0::28::INSTR"
+    sparky_port = "ASRL11::INSTR"  #power supply for razorbill
+    andy_port = "GPIB0::28::INSTR" #AH capacitance bridge
 if ppms == 'D1':
     sparky_port = "ASRL08::INSTR"
     andy_port = "GPIB0::28::INSTR"
